@@ -25,7 +25,7 @@ RACES = [
     "white", "Black", "Asian", "Hispanic", "Native American",
     "Middle Eastern", "Jewish", "Pacific Islander", "South Asian",
     "African", "Caribbean", "Latin American", "Southeast Asian", "East Asian",
-    "Central Asian", "Indigenous Australian", "North African",
+    "Central Asian", "Indigenous Australian", "North African", "Eastern European",
 ]
 
 #######################################################################################
@@ -43,11 +43,12 @@ def _load_gpt4_labels() -> List[str]:
     return labels_string.split(",")
 
 
-def _create_diversified_prompts_based_on_race(labels: List[str]) -> List[str]:
+def _create_diversified_prompts_based_on_race_and_sex(labels: List[str]) -> List[str]:
     prompts = []
     for race in RACES:
         for label in labels:
-            prompts.append(f"Generate an image of a singular {race} {label}.")
+            for sex in ["male", "female"]:
+                prompts.append(f"An individual {sex} {race} {label}.")
 
     return prompts
 
@@ -90,7 +91,7 @@ def generate_images_for_stable_diffusion_finetune() -> List[Dict[str, Any]]:
 
     # Fetch prompts for stable diffusion
     labels = _load_gpt4_labels()
-    prompts = _create_diversified_prompts_based_on_race(labels)
+    prompts = _create_diversified_prompts_based_on_race_and_sex(labels)
 
     # Generate images and save metadata
     all_image_metadata = _gather_all_images_and_associated_metadata(prompts, pipeline)
