@@ -36,7 +36,7 @@ def _serialize_pil_image(image: Image.Image) -> bytes:
 def convert_images_to_parquet_and_push(
     all_image_metadata: List[Dict[str, Any]],
     parquet_file_name: str,
-    dataset_repo: str = "ririye/Bias-Mitigation-Images-SD1.5-Collection",
+    dataset_repo: str = "ririye/Generated-LoRA-Input-Images-for-Mitigating-Bias",
 ) -> None:
     # Ensure HF_TOKEN environment variable is set
     hf_token = os.environ.get("HF_TOKEN")

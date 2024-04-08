@@ -84,7 +84,7 @@ def _gather_all_images_and_associated_metadata(
 #######################################################################################
 #######################################################################################
 
-def generate_images_for_stable_diffusion_finetune() -> List[Dict[str, Any]]:
+def generate_lora_input_images_for_stable_diffusion_finetune() -> List[Dict[str, Any]]:
     # Set up SD-1.5 pipeline with float16 as the data-type for less memory overhead
     pipeline = _set_up_stable_diffusion_pipeline()
 
