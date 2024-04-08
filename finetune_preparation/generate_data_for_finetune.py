@@ -34,7 +34,20 @@ RACES = [
 #######################################################################################
 #######################################################################################
 
-def _load_gpt4_labels() -> List[str]:
+def _get_image_data_using_prompt(prompt: str, pipeline: StableDiffusionPipeline) -> Dict[str, Any]:
+    return {
+        "uuid": uuid.uuid4(),
+        "image": pipeline(prompt),
+        "prompt": prompt,
+    }
+
+#######################################################################################
+#######################################################################################
+################################### Public Methods ####################################
+#######################################################################################
+#######################################################################################
+
+def load_designation_labels() -> List[str]:
     # Reading the file and parsing the contents
     with open(GPT4_LABELS_TEXT_FILE, "r") as file:
         labels_string = file.read()
@@ -43,31 +56,23 @@ def _load_gpt4_labels() -> List[str]:
     return labels_string.split(",")
 
 
-def _create_diversified_prompts_based_on_race_and_sex(labels: List[str]) -> List[str]:
+def create_diversified_prompts_based_on_race_and_sex(designations: List[str]) -> List[str]:
     prompts = []
     for race in RACES:
-        for label in labels:
+        for designation in designations:
             for sex in ["female", "male"]:
-                prompts.append(f"An individual {sex} {race} {label}.")
+                prompts.append(f"An individual {sex} {race} {designation}.")
     return prompts
 
 
-def _set_up_stable_diffusion_pipeline() -> StableDiffusionPipeline:
+def set_up_stable_diffusion_pipeline() -> StableDiffusionPipeline:
     # Create stable diffusion pipeline for RunwayML's `Stable Diffusion v1.5`
     # and push contents to the specified device (`cuda` on SMU SuperPOD)
     pipeline = StableDiffusionPipeline.from_pretrained(MODEL_ID, torch_dtype=torch.float16)
     return pipeline.to(DEVICE)
 
 
-def _get_image_data_using_prompt(prompt: str, pipeline: StableDiffusionPipeline) -> Dict[str, Any]:
-    return {
-        "uuid": uuid.uuid4(),
-        "image": pipeline(prompt),
-        "prompt": prompt,
-    }
-
-
-def _gather_all_images_and_associated_metadata(
+def gather_all_images_and_associated_metadata(
     prompts: List[str],
     pipeline: StableDiffusionPipeline,
 ) -> List[Dict[str, Any]]:
@@ -78,19 +83,14 @@ def _gather_all_images_and_associated_metadata(
 
     return all_image_metadata
 
-#######################################################################################
-#######################################################################################
-################################### Public Methods ####################################
-#######################################################################################
-#######################################################################################
 
 def generate_lora_input_images_for_stable_diffusion_finetune() -> List[Dict[str, Any]]:
     # Set up SD-1.5 pipeline with float16 as the data-type for less memory overhead
-    pipeline = _set_up_stable_diffusion_pipeline()
+    pipeline = set_up_stable_diffusion_pipeline()
 
     # Fetch prompts for stable diffusion
-    labels = _load_gpt4_labels()
-    prompts = _create_diversified_prompts_based_on_race_and_sex(labels)
+    designations = load_designation_labels()
+    prompts = create_diversified_prompts_based_on_race_and_sex(designations)
 
     # Generate images and save metadata
     all_image_metadata = _gather_all_images_and_associated_metadata(prompts, pipeline)
