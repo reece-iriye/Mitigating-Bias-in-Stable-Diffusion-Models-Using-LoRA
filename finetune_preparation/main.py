@@ -26,7 +26,7 @@ def main() -> None:
 
     # Iterate throgh by batch, generating `BATCH_SIZE` images then converting them
     for batch_num in range(num_batches):
-        # Determine batch slice
+        # Determine batch slice and index accordingly
         start_idx = batch_num * BATCH_SIZE
         end_idx = min(start_idx + BATCH_SIZE, total_prompts)
         batch_prompts = all_prompts[start_idx:end_idx]
