@@ -47,9 +47,8 @@ def _create_diversified_prompts_based_on_race_and_sex(labels: List[str]) -> List
     prompts = []
     for race in RACES:
         for label in labels:
-            for sex in ["male", "female"]:
+            for sex in ["female", "male"]:
                 prompts.append(f"An individual {sex} {race} {label}.")
-
     return prompts
 
 
