@@ -22,10 +22,24 @@ DEVICE = (
 )
 GPT4_LABELS_TEXT_FILE = "gpt4_labels.txt"
 RACES = [
-    "white", "Black", "Asian", "Hispanic", "Native American",
-    "Middle Eastern", "Jewish", "Pacific Islander", "South Asian",
-    "African", "Caribbean", "Latin American", "Southeast Asian", "East Asian",
-    "Central Asian", "Indigenous Australian", "North African", "Eastern European",
+    "white",
+    "Black",
+    "Asian",
+    "Hispanic",
+    "Native American",
+    "Middle Eastern",
+    "Jewish",
+    "Pacific Islander",
+    "South Asian",
+    "African",
+    "Caribbean",
+    "Latin American",
+    "Southeast Asian",
+    "East Asian",
+    "Central Asian",
+    "Indigenous Australian",
+    "North African",
+    "Eastern European",
 ]
 
 #######################################################################################
@@ -33,6 +47,7 @@ RACES = [
 ################################### Private Methods ###################################
 #######################################################################################
 #######################################################################################
+
 
 def _get_image_data_using_prompt(
     prompt: str,
@@ -44,11 +59,13 @@ def _get_image_data_using_prompt(
         "prompt": prompt,
     }
 
+
 #######################################################################################
 #######################################################################################
 ################################### Public Methods ####################################
 #######################################################################################
 #######################################################################################
+
 
 def load_designation_labels() -> List[str]:
     """
@@ -69,7 +86,9 @@ def load_designation_labels() -> List[str]:
     return labels_string.split(",")
 
 
-def create_diversified_prompts_based_on_race_and_sex(designations: List[str]) -> List[str]:
+def create_diversified_prompts_based_on_race_and_sex(
+    designations: List[str],
+) -> List[str]:
     """
     Creates diversified prompts based on combinations of races, sexes, and designations.
 
@@ -119,7 +138,9 @@ def set_up_stable_diffusion_pipeline() -> StableDiffusionPipeline:
     device (CUDA, MPS, or CPU) and configures the pipeline to use it. On SMU's
     SuperPOD, CUDA is the device, so make sure to get a GPU.
     """
-    pipeline = StableDiffusionPipeline.from_pretrained(MODEL_ID, torch_dtype=torch.float16)
+    pipeline = StableDiffusionPipeline.from_pretrained(
+        MODEL_ID, torch_dtype=torch.float16
+    )
     return pipeline.to(DEVICE)
 
 

@@ -36,10 +36,14 @@ def main() -> None:
         all_batch_image_metadata = []
 
         # Generate images for the current batch
-        for prompt_iteration in range(1, PROMPT_ITERATION_COUNT+1):
-            print(f"Generating batch {batch_num + 1}/{num_batches} with prompt iteration {prompt_iteration}/{PROMPT_ITERATION_COUNT}...")
+        for prompt_iteration in range(1, PROMPT_ITERATION_COUNT + 1):
+            print(
+                f"Generating batch {batch_num + 1}/{num_batches} with prompt iteration {prompt_iteration}/{PROMPT_ITERATION_COUNT}..."
+            )
             batch_image_metadata = (
-                generate.generate_lora_input_images_and_associated_metadata(batch_prompts, pipeline)
+                generate.generate_lora_input_images_and_associated_metadata(
+                    batch_prompts, pipeline
+                )
             )
             all_batch_image_metadata.extend(batch_image_metadata)
 
