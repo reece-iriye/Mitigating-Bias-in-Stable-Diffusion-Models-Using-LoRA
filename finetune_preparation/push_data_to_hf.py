@@ -22,7 +22,7 @@ def _serialize_pil_image(image: Image.Image) -> bytes:
     Serialize a PIL Image to a PNG byte string.
     """
     buffer = BytesIO()
-    # image.save(buffer, format="PNG")
+    image.save(buffer, format="PNG")
     return buffer.getvalue()
 
 
