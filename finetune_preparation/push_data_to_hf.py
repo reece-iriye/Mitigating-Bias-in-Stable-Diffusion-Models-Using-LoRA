@@ -22,9 +22,7 @@ def _serialize_sd_output_image(output: Any) -> bytes:
     Serialize a PIL Image to a PNG byte string.
     """
     # Assuming the first image is the non-NSFW one I want to serialize
-    image = output.images[
-        0
-    ]  # Access the first image; adjust as needed based on your criteria
+    image = output.images[-1]
 
     buffer = BytesIO()
     image.save(buffer, format="PNG")
