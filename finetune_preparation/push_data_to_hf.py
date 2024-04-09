@@ -79,15 +79,15 @@ def convert_images_to_parquet_and_push(
     --------
     >>> all_image_metadata = [
     ...     {
-                "uuid": "123e4567-e89b-12d3-a456-426614174000",
-                "image": <PIL.Image.Image object>,
-                "prompt": "A happy dog",
-            },
+    ...         "uuid": "123e4567-e89b-12d3-a456-426614174000",
+    ...         "image": <PIL.Image.Image object>,
+    ...         "prompt": "A happy dog",
+    ...     },
     ...     {
-                "uuid": "123e4567-e89b-12d3-a456-426614174001",
-                "image": <PIL.Image.Image object>,
-                "prompt": "A sad cat",
-            }
+    ...         "uuid": "123e4567-e89b-12d3-a456-426614174001",
+    ...         "image": <PIL.Image.Image object>,
+    ...         "prompt": "A sad cat",
+    ...     }
     ... ]
     >>> convert_images_to_parquet_and_push(
     >>>     all_image_metadata,
