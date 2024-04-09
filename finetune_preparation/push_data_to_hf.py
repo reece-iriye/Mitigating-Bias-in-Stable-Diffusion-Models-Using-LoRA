@@ -1,4 +1,5 @@
 import datasets
+from diffusers import StableDiffusionPipelineOutput
 from huggingface_hub import HfApi, Repository
 from huggingface_hub.hf_api import HfFolder
 from PIL import Image
@@ -17,10 +18,13 @@ from io import BytesIO
 #######################################################################################
 
 
-def _serialize_pil_image(image: Image.Image) -> bytes:
+def _serialize_sd_output_image(output: StableDiffusionPipelineOutput) -> bytes:
     """
     Serialize a PIL Image to a PNG byte string.
     """
+    # Assuming the first image is the non-NSFW one I want to serialize
+    image = output.images[0]  # Access the first image; adjust as needed based on your criteria
+
     buffer = BytesIO()
     image.save(buffer, format="PNG")
     return buffer.getvalue()
@@ -104,7 +108,7 @@ def convert_images_to_parquet_and_push(
 
     # Serialize images and prepare data for Parquet
     for item in all_image_metadata:
-        item["image"] = _serialize_pil_image(item["image"])
+        item["image"] = _serialize_sd_output_image(item["image"])
         item["uuid"] = str(item["uuid"])  # Ensure UUID is in string format
 
     # Define Arrow schema
