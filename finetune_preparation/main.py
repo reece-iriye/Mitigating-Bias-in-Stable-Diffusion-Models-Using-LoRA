@@ -33,7 +33,7 @@ def main() -> None:
 
         # Generate images for the current batch
         print(f"Generating batch {batch_num + 1}/{num_batches}...")
-        batch_image_metadata = generate.gather_all_images_and_associated_metadata(batch_prompts, pipeline)
+        batch_image_metadata = generate.generate_lora_input_images_and_associated_metadata(batch_prompts, pipeline)
 
         # Convert the batch's images to a Parquet file and push to Hugging Face
         parquet_file_name = f"lora-input-data-batch-{batch_num + 1}.parquet"
