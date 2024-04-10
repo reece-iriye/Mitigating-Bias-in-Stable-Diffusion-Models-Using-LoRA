@@ -1,6 +1,7 @@
 import datasets
 from huggingface_hub import HfApi, Repository
 from huggingface_hub.hf_api import HfFolder
+import numpy as np
 from PIL import Image
 import pyarrow as pa
 import pyarrow.parquet as pq
@@ -21,12 +22,27 @@ def _serialize_sd_output_image(output: Any) -> bytes:
     """
     Serialize a PIL Image to a PNG byte string.
     """
-    # Assuming the first image is the non-NSFW one I want to serialize
+    # The first image is the fully denoised image
+    print("NOW TO DEBUG, CHECK THIS OUTPUT TYPE")
+    print(f"FIRST, THE TYPE OF `output.images` IS: {output.images}")
+    print(f"NOW, THE TYPE OF `output.images[0]` IS: {output.images[0]}`")
+
     image = output.images[0]
 
-    buffer = BytesIO()
-    image.save(buffer, format="PNG")
-    return buffer.getvalue()
+    if isinstance(image, Image.Image):
+        buffer = BytesIO()
+        image.save(buffer, format="PNG")
+        png_bytes = buffer.getvalue()
+    elif isinstance(image, np.ndarray):
+        # Convert numpy array to PIL Image
+        pil_image = Image.fromarray(image)
+        buffer = BytesIO()
+        pil_image.save(buffer, format="PNG")
+        png_bytes = buffer.getvalue()
+    else:
+        raise ValueError(f"Unsupported image type: {type(image)}.")
+
+    return png_bytes
 
 
 #######################################################################################
