@@ -139,7 +139,7 @@ def set_up_stable_diffusion_pipeline() -> StableDiffusionXLPipeline:
     SuperPOD, CUDA is the device, so make sure to get a GPU.
     """
     pipeline = StableDiffusionXLPipeline.from_pretrained(
-        MODEL_ID, torch_dtype=torch.float16
+        MODEL_ID, torch_dtype=torch.float16, safety_checker=None
     )
     return pipeline.to(DEVICE)
 
