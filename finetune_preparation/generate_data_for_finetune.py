@@ -114,7 +114,7 @@ def create_diversified_prompts_based_on_race_and_sex(
         for designation in designations:
             for sex in ["female", "male"]:
                 prompts.append(
-                    f"An individual {sex} {race} {designation}, in full color."
+                    f"An individual {sex} {race} {designation}, generated in full color."
                 )
     return prompts
 
