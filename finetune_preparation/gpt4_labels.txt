@@ -1,6 +1,6 @@
 guitar player,prisoner,student,CEO,scientist,nurse,doctor,professor,
 detective,actor,musician,teacher,architect,programmer,
-electrician,biologist,psychologist,novelist,chef,personal trainer,
+electrician,biologist,psychologist,novelist,personal trainer,
 painter,translator,filmmaker,gang member,thief,hero,villain,terrorist
-librarian,social worker,environmentalist,journalist,entrepreneur,
-mechanic,farmer,lawyer,activist,soldier,politician
+librarian,social worker,,entrepreneur,mechanic,farmer,lawyer,activist,
+soldier
