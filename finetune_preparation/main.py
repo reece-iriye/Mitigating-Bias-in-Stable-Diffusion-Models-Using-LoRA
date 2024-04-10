@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 def main() -> None:
     # Define batch size
-    BATCH_SIZE = 50
+    BATCH_SIZE = 32
     PROMPT_ITERATION_COUNT = 8
 
     # Load environment variables (e.g. HuggingFace API Key)
@@ -37,8 +37,14 @@ def main() -> None:
 
         # Generate images for the current batch, multiple times for each prompt
         for prompt_iteration in range(1, PROMPT_ITERATION_COUNT + 1):
-            print(f"Generating batch {batch_num + 1}/{num_batches} with prompt iteration {prompt_iteration}/{PROMPT_ITERATION_COUNT}...")
-            batch_image_metadata = generate.generate_lora_input_images_and_associated_metadata(batch_prompts, pipeline)
+            print(
+                f"Generating batch {batch_num + 1}/{num_batches} with prompt iteration {prompt_iteration}/{PROMPT_ITERATION_COUNT}..."
+            )
+            batch_image_metadata = (
+                generate.generate_lora_input_images_and_associated_metadata(
+                    batch_prompts, pipeline
+                )
+            )
             all_batch_image_metadata.extend(batch_image_metadata)
 
         # Convert the batch's images to a Parquet file and push to Hugging Face

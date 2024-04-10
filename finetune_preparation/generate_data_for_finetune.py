@@ -1,4 +1,4 @@
-from diffusers import StableDiffusionPipeline
+from diffusers import StableDiffusionXLPipeline
 from PIL import Image
 import torch
 
@@ -12,13 +12,11 @@ import uuid
 #######################################################################################
 #######################################################################################
 
-MODEL_ID = "runwayml/stable-diffusion-v1-5"
+MODEL_ID = "SG161222/RealVisXL_V4.0"
 DEVICE = (
     "cuda"
     if torch.cuda.is_available()
-    else "mps"
-    if torch.backends.mps.is_available()
-    else "cpu"
+    else "mps" if torch.backends.mps.is_available() else "cpu"
 )
 GPT4_LABELS_TEXT_FILE = "gpt4_labels.txt"
 RACES = [
@@ -51,7 +49,7 @@ RACES = [
 
 def _get_image_data_using_prompt(
     prompt: str,
-    pipeline: StableDiffusionPipeline,
+    pipeline: StableDiffusionXLPipeline,
 ) -> Dict[str, Any]:
     return {
         "uuid": uuid.uuid4(),
@@ -115,11 +113,13 @@ def create_diversified_prompts_based_on_race_and_sex(
     for race in RACES:
         for designation in designations:
             for sex in ["female", "male"]:
-                prompts.append(f"An individual {sex} {race} {designation}.")
+                prompts.append(
+                    f"An individual {sex} {race} {designation}, in full color."
+                )
     return prompts
 
 
-def set_up_stable_diffusion_pipeline() -> StableDiffusionPipeline:
+def set_up_stable_diffusion_pipeline() -> StableDiffusionXLPipeline:
     """
     Initializes and returns a Stable Diffusion pipeline using the model specified
     by MODEL_ID and sets it up on the available DEVICE.
@@ -138,7 +138,7 @@ def set_up_stable_diffusion_pipeline() -> StableDiffusionPipeline:
     device (CUDA, MPS, or CPU) and configures the pipeline to use it. On SMU's
     SuperPOD, CUDA is the device, so make sure to get a GPU.
     """
-    pipeline = StableDiffusionPipeline.from_pretrained(
+    pipeline = StableDiffusionXLPipeline.from_pretrained(
         MODEL_ID, torch_dtype=torch.float16
     )
     return pipeline.to(DEVICE)
@@ -146,7 +146,7 @@ def set_up_stable_diffusion_pipeline() -> StableDiffusionPipeline:
 
 def generate_lora_input_images_and_associated_metadata(
     prompts: List[str],
-    pipeline: StableDiffusionPipeline,
+    pipeline: StableDiffusionXLPipeline,
 ) -> List[Dict[str, Any]]:
     """
     Generates images using the Stable Diffusion pipeline for each prompt and collects
