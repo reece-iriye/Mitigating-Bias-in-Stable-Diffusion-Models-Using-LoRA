@@ -16,29 +16,13 @@ MODEL_ID = "SG161222/RealVisXL_V4.0"
 DEVICE = (
     "cuda"
     if torch.cuda.is_available()
-    else "mps" if torch.backends.mps.is_available() else "cpu"
+    else "mps"
+    if torch.backends.mps.is_available()
+    else "cpu"
 )
-GPT4_LABELS_TEXT_FILE = "gpt4_labels.txt"
-RACES = [
-    "white",
-    "Black",
-    "Asian",
-    "Hispanic",
-    "Native American",
-    "Middle Eastern",
-    "Jewish",
-    "Pacific Islander",
-    "South Asian",
-    "African",
-    "Caribbean",
-    "Latin American",
-    "Southeast Asian",
-    "East Asian",
-    "Central Asian",
-    "Indigenous Australian",
-    "North African",
-    "Eastern European",
-]
+
+LABELS_TEXT_FILE = "labels.txt"
+
 
 #######################################################################################
 #######################################################################################
@@ -67,7 +51,7 @@ def _get_image_data_using_prompt(
 
 def load_designation_labels() -> List[str]:
     """
-    Loads designation labels from a text file specified by GPT4_LABELS_TEXT_FILE.
+    Loads designation labels from a text file specified by LABELS_TEXT_FILE.
 
     Returns
     -------
@@ -77,16 +61,14 @@ def load_designation_labels() -> List[str]:
         diversified image prompts.
     """
     # Reading the file and parsing the contents
-    with open(GPT4_LABELS_TEXT_FILE, "r") as file:
+    with open(LABELS_TEXT_FILE, "r") as file:
         labels_string = file.read()
 
     # Converting the string of labels into a list
     return labels_string.split(",")
 
 
-def create_diversified_prompts_based_on_race_and_sex(
-    designations: List[str],
-) -> List[str]:
+def create_benchmark_prompts(designations: List[str]) -> List[str]:
     """
     Creates diversified prompts based on combinations of races, sexes, and designations.
 
@@ -99,24 +81,13 @@ def create_diversified_prompts_based_on_race_and_sex(
     Returns
     -------
     List[str]
-        A list of prompts that combine each designation with each race and sex
-        specified in the global RACES list and a hardcoded list of sexes
-        ("female" and "male").
-
-    Notes
-    -----
-    The function iterates through all combinations of the provided designations,
-    races from the global RACES list, and the two sexes. It formats these
-    combinations into prompts suitable for image generation with Stable Diffusion.
+        A list of prompts with each designation passed in the parameter that follows the format:
+        f"An individual {designation}, generated in full color, facing towards the camera."
     """
-    prompts = []
-    for race in RACES:
-        for designation in designations:
-            for sex in ["female", "male"]:
-                prompts.append(
-                    f"An individual {sex} {race} {designation}, generated in full color, facing towards the camera."
-                )
-    return prompts
+    return [
+        f"An individual {designation}, generated in full color, facing towards the camera."
+        for designation in designations
+    ]
 
 
 def set_up_stable_diffusion_pipeline() -> StableDiffusionXLPipeline:

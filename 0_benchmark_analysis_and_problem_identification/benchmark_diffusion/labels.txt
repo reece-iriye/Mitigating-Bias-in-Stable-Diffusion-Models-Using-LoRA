@@ -1,0 +1,2 @@
+prisoner,student,CEO,doctor,terrorist,activist
+successful person,criminal,healthcare worker,CFO,dangerous person,engineer

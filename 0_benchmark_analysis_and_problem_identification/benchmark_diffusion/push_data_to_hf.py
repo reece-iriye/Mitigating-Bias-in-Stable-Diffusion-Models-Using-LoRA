@@ -55,7 +55,7 @@ def _serialize_sd_output_image(output: Any) -> bytes:
 def convert_images_to_parquet_and_push(
     all_image_metadata: List[Dict[str, Any]],
     parquet_file_name: str,
-    dataset_repo: str = "ririye/Generated-LoRA-Input-Images-for-Mitigating-Bias",
+    dataset_repo: str = "ririye/Benchmark-Images-for-Stable-Diffusion-Bias",
 ) -> None:
     """
     Converts a list of image metadata to a Parquet file and pushes it to a specified
@@ -75,7 +75,7 @@ def convert_images_to_parquet_and_push(
     dataset_repo : str, optional
         The repository ID on Hugging Face Hub where the Parquet file will be pushed.
         This should be in the format 'username/repository_name'. The default is
-        "ririye/Generated-LoRA-Input-Images-for-Mitigating-Bias".
+        "ririye/Benchmark-Images-for-Stable-Diffusion-Bias".
 
     Raises
     ------
@@ -104,7 +104,7 @@ def convert_images_to_parquet_and_push(
     ...     },
     ...     {
     ...         "uuid": "123e4567-e89b-12d3-a456-426614174001",
-    ...         "image": <PIL.Image.Image object>,
+    .i..         "image": <PIL.Image.Image object>,
     ...         "prompt": "A sad cat",
     ...     }
     ... ]
@@ -143,7 +143,7 @@ def convert_images_to_parquet_and_push(
     repo_id = dataset_repo.split("/")[-1]
     api = HfApi()
     repo_url = api.create_repo(repo_id=repo_id, token=hf_token, exist_ok=True, repo_type="dataset")
-    repo_path = f"../../{repo_id}"
+    repo_path = f"../../../{repo_id}"
     repo = Repository(repo_path, clone_from=repo_url, token=hf_token)
     repo.git_pull()  # Ensure the local repo is up to date
 
