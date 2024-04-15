@@ -13,9 +13,9 @@ def main() -> None:
     # Load environment variables (e.g. HuggingFace API Key)
     load_dotenv()
 
-    # Load the labels and create diversified prompts
+    # Load the labels and create prompts
     labels = generate.load_designation_labels()
-    all_prompts = generate.create_diversified_prompts_based_on_race_and_sex(labels)
+    all_prompts = generate.create_benchmark_prompts(labels)
 
     # Calculate the number of batches needed
     total_prompts = len(all_prompts)

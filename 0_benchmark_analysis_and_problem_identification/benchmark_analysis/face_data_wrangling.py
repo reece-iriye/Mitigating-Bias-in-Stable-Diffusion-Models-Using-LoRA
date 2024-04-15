@@ -1,4 +1,5 @@
 import cv2
+import datasets
 import face_recognition
 import numpy as np
 import pyarrow.parquet as pq
@@ -11,5 +12,5 @@ def _get_average_hue_from_bounding_box(image: np.ndarray, bounding_box: np.ndarr
     return 0.0
 
 
-def get_face_data() -> List[Tuple[np.ndarray, str]]:
+def get_face_data_from_() -> List[Tuple[np.ndarray, str]]:
     return []
