@@ -8,5 +8,5 @@
 #SBATCH --mail-type=ALL
 #SBATCH --mem=128GB
 
-pip install -r ../requirements.txt
+pip install -r ../../requirements.txt
 python main.py
