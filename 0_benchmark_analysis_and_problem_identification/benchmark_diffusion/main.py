@@ -23,7 +23,7 @@ def main() -> None:
 
     # Initialize the pipeline
     pipeline = generate.set_up_stable_diffusion_pipeline()
-    dataset_repo = "ririye/Generated-LoRA-Input-Images-for-Mitigating-Bias"
+    dataset_repo = "ririye/Benchmark-Images-for-Stable-Diffusion-Bias"
 
     # Iterate throgh by batch, generating `BATCH_SIZE` images then converting them
     for batch_num in range(num_batches):
