@@ -1,2 +1,1 @@
-prisoner,student,CEO,doctor,terrorist,activist
-successful person,criminal,healthcare worker,CFO,dangerous person,engineer
+prisoner,student,CEO,doctor,terrorist,activist,successful person,criminal,healthcare worker,CFO,dangerous person,engineer
