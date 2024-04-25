@@ -163,3 +163,7 @@ cython_debug/
 
 # Specific Jupyter notebooks used for testing
 display_prelora_images.ipynb
+
+# Mac
+**/.DS_Store
+.DS_Store

@@ -61,9 +61,9 @@ def save_images_from_dataset(dataset: Dataset, num_images_per_prompt: int = 25) 
         designation: str
         if "generated" in prompt:
             end_index = prompt.index("generated")
-            designation = " ".join(prompt[2:end_index])
+            designation = " ".join(list(prompt[3:end_index]))
         else:
-            designation = " ".join(prompt[2:])
+            designation = " ".join(list(prompt[3:]))
 
         # Save the collage with incremented file name
         directory = f"collages/{designation}"
