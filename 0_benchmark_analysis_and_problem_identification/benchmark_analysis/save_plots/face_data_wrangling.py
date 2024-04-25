@@ -9,6 +9,7 @@ from typing import List, Dict, Tuple, Any
 
 
 def _get_average_hue_from_bounding_box(image: np.ndarray, bounding_box: np.ndarray) -> float:
+    dataset_repo = "ririye/Benchmark-Images-for-Stable-Diffusion-Bias"
     return 0.0
 
 
