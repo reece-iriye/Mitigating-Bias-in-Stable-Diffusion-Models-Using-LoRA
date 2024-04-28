@@ -75,9 +75,10 @@ def get_race_and_sex_predictions_from_deepface(
 
         # Perform race and gender analysis using DeepFace
         predictions = DeepFace.analyze(
-            img_path=image_rgb,
+            img_path=image_bgr,
             actions=["race", "gender"],
             enforce_detection=False,
+            silent=True,
         )
 
         # Extract the race and gender predictions for the first face
