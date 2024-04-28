@@ -70,6 +70,9 @@ def get_race_and_sex_predictions_from_deepface(
         - If no faces are detected or an error occurs during the analysis, empty strings are returned for both race and gender.
     """
     try:
+        # DeepFace conducts analyses using BGR format
+        image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+
         # Perform race and gender analysis using DeepFace
         predictions = DeepFace.analyze(
             img_path=image_rgb,
@@ -108,14 +111,14 @@ def process_dataset(
         # Get numpy representation of image
         image_data = row["image"]
         image = Image.open(io.BytesIO(image_data))
-        image_np_rgb = np.array(image)
+        image_rgb: np.ndarray = np.array(image)
 
         # Calculate the average hue value in the face regions
-        avg_hue = get_average_hue_in_face(image_np_rgb)
+        avg_hue = get_average_hue_in_face(image_rgb)
         hue_values.append(avg_hue)
 
         # Use `deepface` classifier to get race and sex predictions
-        race, sex = get_race_and_sex_predictions_from_deepface(image_np_rgb)
+        race, sex = get_race_and_sex_predictions_from_deepface(image_rgb)
         race_predictions.append(race)
         sex_predictions.append(sex)
 
