@@ -16,7 +16,7 @@ def _extract_face(img: np.ndarray, x: int, y: int, w: int, h: int) -> np.ndarray
 
 def _get_average_hue_in_face(
     image_rgb: np.ndarray,
-) -> Tuple[float, Optional[List[float]]]:
+) -> Tuple[float, Optional[Tuple[int, int, int, int]]]:
     """
     Detect faces in the image using DeepFace and calculate the average hue value within each face region.
 
@@ -38,7 +38,7 @@ def _get_average_hue_in_face(
 
     # Go to the first face and get the face region from the face
     face_dict = faces[0]["facial_area"]
-    face_bbox = (face_bbox["x"], face_bbox["y"], face_bbox["w"], face_bbox["h"])
+    face_bbox = (face_dict["x"], face_dict["y"], face_dict["w"], face_dict["h"])
     face_img_rgb = _extract_face(image_rgb, *face_bbox)
 
     # Convert the face region from RGB to HSV color space
@@ -48,10 +48,10 @@ def _get_average_hue_in_face(
     hsv_pixels = face_img_hsv.reshape(-1, 3)
 
     # Calculate the average hue value
-    hue_values = [hsv_pixel[0] for hsface_region_pixel in hsv_pixels]
+    hue_values = [hsv_pixel[0] for hsv_pixel in hsv_pixels]
     avg_hue = sum(hue_values) / len(hue_values)
 
-    return avg_hue, face
+    return avg_hue, face_bbox
 
 
 def _get_race_and_sex_predictions_from_deepface(
