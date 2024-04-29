@@ -8,7 +8,7 @@ import io
 from typing import List, Tuple, Optional
 
 
-def get_average_hue_in_face(
+def _get_average_hue_in_face(
     image_rgb: np.ndarray,
 ) -> Tuple[float, Optional[List[float]]]:
     """
@@ -45,7 +45,7 @@ def get_average_hue_in_face(
     return avg_hue, face
 
 
-def get_race_and_sex_predictions_from_deepface(
+def _get_race_and_sex_predictions_from_deepface(
     image_rgb: np.ndarray,
 ) -> Tuple[str, str]:
     """
@@ -70,7 +70,7 @@ def get_race_and_sex_predictions_from_deepface(
         - If no faces are detected or an error occurs during the analysis, empty strings are returned for both race and gender.
     """
     try:
-        # DeepFace conducts analyses using BGR format
+        # DeepFace conducts analyses using BGR format for OpenCV backend. Get that format.
         image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
 
         # Perform race and gender analysis using DeepFace
@@ -92,7 +92,7 @@ def get_race_and_sex_predictions_from_deepface(
         return "", ""
 
 
-def process_dataset(
+def get_all_face_features(
     dataset: Dataset,
 ) -> Tuple[List[float], List[str], List[str]]:
     """
@@ -102,7 +102,8 @@ def process_dataset(
         dataset (Dataset): Hugging Face Dataset object containing the images.
 
     Returns:
-        List[float]: List of average hue values for each image in the dataset. None values indicate images where no faces were detected.
+        List[float]: List of average hue values for each image in the dataset.
+                     None values indicate images where no faces were detected.
     """
     hue_values = []
     race_predictions = []
@@ -115,11 +116,11 @@ def process_dataset(
         image_rgb: np.ndarray = np.array(image)
 
         # Calculate the average hue value in the face regions
-        avg_hue = get_average_hue_in_face(image_rgb)
+        avg_hue = _get_average_hue_in_face(image_rgb)
         hue_values.append(avg_hue)
 
         # Use `deepface` classifier to get race and sex predictions
-        race, sex = get_race_and_sex_predictions_from_deepface(image_rgb)
+        race, sex = _get_race_and_sex_predictions_from_deepface(image_rgb)
         race_predictions.append(race)
         sex_predictions.append(sex)
 
