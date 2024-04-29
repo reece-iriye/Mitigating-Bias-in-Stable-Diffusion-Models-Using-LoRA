@@ -8,6 +8,12 @@ import io
 from typing import List, Tuple, Optional
 
 
+def _extract_face(img: np.ndarray, x: int, y: int, w: int, h: int) -> np.ndarray:
+    height_slice = slice(y - h, y)
+    width_slice = slice(x, x + w)
+    return img[height_slice, width_slice]
+
+
 def _get_average_hue_in_face(
     image_rgb: np.ndarray,
 ) -> Tuple[float, Optional[List[float]]]:
@@ -20,26 +26,29 @@ def _get_average_hue_in_face(
     Returns:
         float: Average hue value of the detected faces. Returns -1 if no faces are detected.
     """
+    # Convert RGB Image to BGR for DeepFace OpenCV Backend
+    image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+
     # Detect faces using DeepFace
-    faces = DeepFace.extract_faces(image_rgb, enforce_detection=False)
+    faces = DeepFace.extract_faces(image_bgr, enforce_detection=False)
     total_number_of_faces = len(faces)
 
     if total_number_of_faces == 0:
         return -1.0, None
 
     # Go to the first face and get the face region from the face
-    face = faces[0]
-    assert len(face) == 4
-    face_img = image_rgb[face[1]:face[3], face[0]:face[2]]
+    face_dict = faces[0]["facial_area"]
+    face_bbox = (face_bbox["x"], face_bbox["y"], face_bbox["w"], face_bbox["h"])
+    face_img_rgb = _extract_face(image_rgb, *face_bbox)
 
-    # Convert the face region from BGR to HSV color space
-    face_img_hsv = cv2.cvtColor(face_img, cv2.COLOR_RGB2HSV)
+    # Convert the face region from RGB to HSV color space
+    face_img_hsv = cv2.cvtColor(face_img_rgb, cv2.COLOR_RGB2HSV)
 
     # Flatten the image array to a 2D array of pixels
     hsv_pixels = face_img_hsv.reshape(-1, 3)
 
     # Calculate the average hue value
-    hue_values = [hsv_pixel[0] for hsv_pixel in hsv_pixels]
+    hue_values = [hsv_pixel[0] for hsface_region_pixel in hsv_pixels]
     avg_hue = sum(hue_values) / len(hue_values)
 
     return avg_hue, face
@@ -116,7 +125,7 @@ def get_all_face_features(
         image_rgb: np.ndarray = np.array(image)
 
         # Calculate the average hue value in the face regions
-        avg_hue = _get_average_hue_in_face(image_rgb)
+        avg_hue, face_region = _get_average_hue_in_face(image_rgb)
         hue_values.append(avg_hue)
 
         # Use `deepface` classifier to get race and sex predictions
