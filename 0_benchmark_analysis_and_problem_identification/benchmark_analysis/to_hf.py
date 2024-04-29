@@ -12,7 +12,7 @@ def upload_data_to_hf(
     race_predictions: List[str],
     sex_predictions: List[str],
     *,
-    dataset_repo: str = "ririye/Benchmark-Images-for-Stable-Diffusion-Bias",
+    dataset_repo: str = "ririye/Updated-Benchmark-Images-for-Stable-Diffusion-Bias",
 ) -> None:
     """
     Uploads a dataset with additional columns to a Hugging Face repository.
@@ -33,8 +33,8 @@ def upload_data_to_hf(
         A list of sex predictions to be added as a new column to the dataset.
     dataset_repo : str, optional
         The repository ID on Hugging Face Hub where the dataset will be pushed.
-        This should be in the format 'username/repository_name'. The default is
-        "ririye/Benchmark-Images-for-Stable-Diffusion-Bias".
+        This should be in the format "username/repository_name". The default is
+        "ririye/Updated-Benchmark-Images-for-Stable-Diffusion-Bias".
 
     Raises
     ------
