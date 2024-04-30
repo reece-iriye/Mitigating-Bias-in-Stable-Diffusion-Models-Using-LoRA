@@ -1,0 +1,51 @@
+2024-04-29 21:17:24.352658: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-04-29 21:17:25.177357: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Generating train split: 0 examples [00:00, ? examples/s]Generating train split: 1000 examples [00:02, 441.35 examples/s]Generating train split: 2000 examples [00:06, 284.54 examples/s]Generating train split: 3000 examples [00:12, 228.18 examples/s]Generating train split: 4000 examples [00:15, 241.65 examples/s]Generating train split: 5000 examples [00:18, 269.62 examples/s]Generating train split: 6000 examples [00:23, 251.43 examples/s]Generating train split: 7000 examples [00:27, 239.41 examples/s]Generating train split: 8000 examples [00:33, 211.98 examples/s]Generating train split: 9000 examples [00:38, 206.25 examples/s]Generating train split: 10000 examples [00:43, 208.46 examples/s]Generating train split: 10000 examples [00:47, 210.42 examples/s]
+Traceback (most recent call last):
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/builder.py", line 1975, in _prepare_split_single
+    num_examples, num_bytes = writer.finalize()
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/arrow_writer.py", line 606, in finalize
+    self.stream.close()
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/fsspec/implementations/local.py", line 391, in close
+    return self.f.close()
+OSError: [Errno 122] Disk quota exceeded
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/builder.py", line 2005, in _prepare_split_single
+    num_examples, num_bytes = writer.finalize()
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/arrow_writer.py", line 601, in finalize
+    self._build_writer(self.schema)
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/arrow_writer.py", line 403, in _build_writer
+    self.pa_writer = self._WRITER_CLASS(self.stream, schema)
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/pyarrow/ipc.py", line 85, in __init__
+    self._open(sink, schema, options=options)
+  File "pyarrow/ipc.pxi", line 582, in pyarrow.lib._RecordBatchStreamWriter._open
+  File "pyarrow/io.pxi", line 2084, in pyarrow.lib.get_writer
+  File "pyarrow/io.pxi", line 219, in pyarrow.lib.NativeFile.get_output_stream
+  File "pyarrow/io.pxi", line 233, in pyarrow.lib.NativeFile._assert_writable
+  File "pyarrow/io.pxi", line 224, in pyarrow.lib.NativeFile._assert_open
+ValueError: I/O operation on closed file
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "main.py", line 21, in <module>
+    main()
+  File "main.py", line 15, in main
+    dataset = get_data_from_huggingface()
+  File "/users/ririye/work/Mitigating-Bias-in-Stable-Diffusion-Models-Using-LoRA/0_benchmark_analysis_and_problem_identification/benchmark_analysis/from_hf.py", line 7, in get_data_from_huggingface
+    dataset = load_dataset(dataset_repo, split="train")
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/load.py", line 2582, in load_dataset
+    builder_instance.download_and_prepare(
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/builder.py", line 1005, in download_and_prepare
+    self._download_and_prepare(
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/builder.py", line 1100, in _download_and_prepare
+    self._prepare_split(split_generator, **prepare_split_kwargs)
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/builder.py", line 1860, in _prepare_split
+    for job_id, done, content in self._prepare_split_single(
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/datasets/builder.py", line 2016, in _prepare_split_single
+    raise DatasetGenerationError("An error occurred while generating the dataset") from e
+datasets.exceptions.DatasetGenerationError: An error occurred while generating the dataset
