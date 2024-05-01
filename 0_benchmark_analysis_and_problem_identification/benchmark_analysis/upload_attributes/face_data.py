@@ -5,6 +5,7 @@ from deepface import DeepFace
 import numpy as np
 from PIL import Image
 
+from copy import deepcopy
 import io
 from typing import List, Tuple, Union, Optional
 
@@ -28,7 +29,8 @@ def _get_average_hue_in_face(
         float: Average hue value of the detected faces. Returns -1 if no faces are detected.
     """
     # Convert RGB Image to BGR for DeepFace OpenCV Backend
-    image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+    image_rgb_copy = deepcopy(image_rgb) 
+    image_bgr = cv2.cvtColor(image_rgb_copy, cv2.COLOR_RGB2BGR)
 
     # Detect faces using DeepFace
     faces = DeepFace.extract_faces(image_bgr, enforce_detection=False)
@@ -40,7 +42,8 @@ def _get_average_hue_in_face(
     # Go to the first face and get the face region from the face
     face_dict = faces[0]["facial_area"]
     face_bbox = (face_dict["x"], face_dict["y"], face_dict["w"], face_dict["h"])
-    face_img_rgb = _extract_face(image_rgb, *face_bbox)
+    image_rgb_copy = deepcopy(image_rgb)
+    face_img_rgb = _extract_face(image_rgb_copy, *face_bbox)
 
     # Convert the face region from RGB to HSV color space
     face_img_hsv = cv2.cvtColor(face_img_rgb, cv2.COLOR_RGB2HSV)
