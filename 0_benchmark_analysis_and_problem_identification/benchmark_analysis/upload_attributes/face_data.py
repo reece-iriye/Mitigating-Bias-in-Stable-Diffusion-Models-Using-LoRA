@@ -1,11 +1,12 @@
 import cv2
+from datasets import IterableDataset
 from datasets.dataset_dict import Dataset
 from deepface import DeepFace
 import numpy as np
 from PIL import Image
 
 import io
-from typing import List, Tuple, Optional
+from typing import List, Tuple, Union, Optional
 
 
 def _extract_face(img: np.ndarray, x: int, y: int, w: int, h: int) -> np.ndarray:
@@ -102,7 +103,7 @@ def _get_race_and_sex_predictions_from_deepface(
 
 
 def get_all_face_features(
-    dataset: Dataset,
+    dataset: Union[Dataset, IterableDataset],
 ) -> Tuple[List[float], List[str], List[str]]:
     """
     Process each image in the dataset, detect faces, and calculate the average hue value within each face region.

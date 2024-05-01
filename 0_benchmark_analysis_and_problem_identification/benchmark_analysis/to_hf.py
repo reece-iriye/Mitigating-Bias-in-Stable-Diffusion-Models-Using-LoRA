@@ -1,13 +1,13 @@
-from datasets import load_dataset
+from datasets import load_dataset, IterableDataset
 from datasets.dataset_dict import Dataset
 from huggingface_hub import HfApi, Repository, create_repo
 
 import os
-from typing import List
+from typing import List, Union
 
 
 def upload_data_to_hf(
-    dataset: Dataset,
+    dataset: Union[Dataset, IterableDataset],
     hue_values: List[float],
     race_predictions: List[str],
     sex_predictions: List[str],
@@ -73,7 +73,7 @@ def upload_data_to_hf(
         raise EnvironmentError("Hugging Face token not found in environment variables.")
 
     # Add the new columns to the dataset
-    dataset = dataset.add_column("hue", hue_values)
+    dataset = dataset.add_column("avg_hue", hue_values)
     dataset = dataset.add_column("race_prediction", race_predictions)
     dataset = dataset.add_column("sex_prediction", sex_predictions)
 
@@ -87,10 +87,15 @@ def upload_data_to_hf(
     repo = Repository(repo_path, clone_from=repo_url, token=hf_token)
     repo.git_pull()  # Ensure the local repo is up to date
 
-    # Save the updated dataset to the repository folder
-    dataset.save_to_disk(repo_path)
+    if not (isinstance(dataset, Union[Dataset, IterableDataset])):
+        raise TypeError(f"`dataset` is a type {type(dataset)}, not a Dataset or IterableDataset")
+    if isinstance(dataset, Dataset):
+        # Save the updated dataset to the repository folder
+        dataset.save_to_disk(repo_path)
 
-    # Add, commit, and push the changes
-    repo.git_add(auto_lfs_track=True)
-    repo.git_commit("Update dataset with new columns")
-    repo.git_push()
+        # Add, commit, and push the changes
+        repo.git_add(auto_lfs_track=True)
+        repo.git_commit("Update dataset with new columns")
+        repo.git_push()
+    elif isinstance(dataset, IterableDataset):
+        raise NotImplemented()

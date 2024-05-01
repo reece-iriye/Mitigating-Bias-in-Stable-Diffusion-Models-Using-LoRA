@@ -1,3 +1,5 @@
+from datasets import IterableDataset
+
 import os
 import sys
 
@@ -12,7 +14,7 @@ except Exception as e:
 
 
 def main() -> None:
-    dataset = get_data_from_huggingface()
+    dataset: IterableDataset = get_data_from_huggingface()
     hue_values, race_predictions, sex_predictions = get_all_face_features(dataset)
     upload_data_to_hf(dataset, hue_values, race_predictions, sex_predictions)
 
