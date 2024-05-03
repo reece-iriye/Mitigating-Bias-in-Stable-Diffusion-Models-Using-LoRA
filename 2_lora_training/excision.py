@@ -1,8 +1,7 @@
 import os
 
-
 # Specify the folder path
-folder_path = "../TEMPORARY_FOLDER"
+folder_path = "path/to/your/folder"
 
 # Loop through all files in the folder
 for filename in os.listdir(folder_path):
@@ -19,14 +18,21 @@ for filename in os.listdir(folder_path):
             # Loop through each line
             for line in lines:
                 # Split the line into words
-                words = line.split(" ")
+                words = line.split()
 
-                # Remove the 2nd and 3rd word if they exist
-                if len(words) >= 3:
-                    words = words[:1] + words[3:]
+                # Find the index of "<DESIGNATION>"
+                designation_index = words.index("<DESIGNATION>,")
 
-                # Join the remaining words back into a line
-                modified_line = " ".join(words)
+                # Extract the words before "<DESIGNATION>"
+                before_designation = words[:designation_index]
+
+                # Extract the words after "<DESIGNATION>"
+                after_designation = words[designation_index:]
+
+                # Combine the words to form the modified line
+                modified_line = " ".join(before_designation[:2] + after_designation)
 
                 # Write the modified line back to the file
                 file.write(modified_line + "\n")
+
+print("Text files processed successfully.")
