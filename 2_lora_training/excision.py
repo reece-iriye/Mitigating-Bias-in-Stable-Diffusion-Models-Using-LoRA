@@ -1,8 +1,30 @@
 import os
 
-
 # Specify the folder path
 folder_path = "path/to/your/folder"
+
+# List of words to remove from the captions
+RACES_AND_SEXES = [
+    "male", "female",
+    "white",
+    "Black",
+    "Asian",
+    "Hispanic",
+    "Native American",
+    "Middle Eastern",
+    "Jewish",
+    "Pacific Islander",
+    "South Asian",
+    "African",
+    "Caribbean",
+    "Latin American",
+    "Southeast Asian",
+    "East Asian",
+    "Central Asian",
+    "Indigenous Australian",
+    "North African",
+    "Eastern European"
+]
 
 # Loop through all files in the folder
 for filename in os.listdir(folder_path):
@@ -19,21 +41,16 @@ for filename in os.listdir(folder_path):
             # Loop through each line
             for line in lines:
                 # Split the line into words
-                words = line.split()
+                words = line.split(" ")
 
-                # Find the index of "<DESIGNATION>"
-                designation_index = words.index("<DESIGNATION>,")
+                # Remove the specified words from the line
+                modified_words = [word for word in words if word not in RACES_AND_SEXES]
 
-                # Extract the words before "<DESIGNATION>"
-                before_designation = words[:designation_index]
-
-                # Extract the words after "<DESIGNATION>"
-                after_designation = words[designation_index:]
-
-                # Combine the words to form the modified line
-                modified_line = " ".join(before_designation[:2] + after_designation)
+                # Join the remaining words back into a line
+                modified_line = " ".join(modified_words)
 
                 # Write the modified line back to the file
                 file.write(modified_line + "\n")
+
 
 print("Text files processed successfully.")
