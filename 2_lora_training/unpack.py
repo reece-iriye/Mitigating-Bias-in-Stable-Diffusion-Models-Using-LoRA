@@ -2,13 +2,15 @@
 import os
 import pandas as pd
 
-# Directory Containing Parquets (Swap Base For ../../Benchmark-Images-for-Stable-Diffusion-Bias)
+# Directory Containing Parquets
+# base_directory = "../../Benchmark-Images-for-Stable-Diffusion-Bias"
 base_directory = "../../Generated-LoRA-Input-Images-for-Mitigating-Bias"
 os.makedirs(os.path.join(base_directory, "log"), exist_ok = True)
 os.makedirs(os.path.join(base_directory, "model"), exist_ok = True)
 
 # Target Directory For Saving Images, Captions
-target_directory = os.path.join(base_directory, "img/10_race/")
+# target_directory = os.path.join(base_directory, "reg/")
+target_directory = os.path.join(base_directory, "img/1_unbias/")
 os.makedirs(target_directory, exist_ok = True)
 
 # List All Parquet Files In Directory

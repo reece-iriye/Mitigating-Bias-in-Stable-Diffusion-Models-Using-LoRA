@@ -1,56 +1,60 @@
+# Externals
 import os
 
-# Specify the folder path
-folder_path = "path/to/your/folder"
+# Specify Folder Path
+folder_path = "../../Generated-LoRA-Input-Images-for-Mitigating-Bias/img/1_unbias"
 
-# List of words to remove from the captions
+# List Of Excised Words
 RACES_AND_SEXES = [
-    "male", "female",
+    "male", 
+    "female",
     "white",
+    "White",
     "Black",
     "Asian",
     "Hispanic",
-    "Native American",
-    "Middle Eastern",
+    "Native",
+    "American",
+    "Middle",
+    "Eastern",
     "Jewish",
-    "Pacific Islander",
-    "South Asian",
+    "Pacific",
+    "Islander",
+    "South",
+    "Asian",
     "African",
     "Caribbean",
-    "Latin American",
-    "Southeast Asian",
-    "East Asian",
-    "Central Asian",
-    "Indigenous Australian",
-    "North African",
-    "Eastern European"
+    "Latin",
+    "American",
+    "Southeast"
+    "Asian",
+    "East",
+    "Asian",
+    "Central",
+    "Asian",
+    "Indigenous",
+    "Australian",
+    "North",
+    "African",
+    "Eastern",
+    "European"
 ]
 
-# Loop through all files in the folder
+# Loop Through All Files
 for filename in os.listdir(folder_path):
-    # Check if the file has a .txt extension
     if filename.endswith(".txt"):
         file_path = os.path.join(folder_path, filename)
-
-        # Read the contents of the file
         with open(file_path, "r") as file:
             lines = file.readlines()
-
-        # Open the file in write mode
         with open(file_path, "w") as file:
-            # Loop through each line
             for line in lines:
-                # Split the line into words
                 words = line.split(" ")
 
-                # Remove the specified words from the line
+                # Remove Specified Words From Line
                 modified_words = [word for word in words if word not in RACES_AND_SEXES]
 
-                # Join the remaining words back into a line
+                # Join Remaining Words Back Into Line
                 modified_line = " ".join(modified_words)
 
-                # Write the modified line back to the file
+                # Write Modified Line Back To File
                 file.write(modified_line + "\n")
-
-
-print("Text files processed successfully.")
