@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 
 def main() -> None:
     # Define batch size
-    BATCH_SIZE = 32
-    PROMPT_ITERATION_COUNT = 8
+    BATCH_SIZE = 1
+    PROMPT_ITERATION_COUNT = 1000
 
     # Load environment variables (e.g. HuggingFace API Key)
     load_dotenv()
@@ -48,7 +48,7 @@ def main() -> None:
             all_batch_image_metadata.extend(batch_image_metadata)
 
         # Convert the batch's images to a Parquet file and push to Hugging Face
-        parquet_file_name = f"lora-input-data-batch-{batch_num + 1}.parquet"
+        parquet_file_name = f"comparison-images-{batch_num + 1}.parquet"
         hf.convert_images_to_parquet_and_push(
             all_image_metadata=all_batch_image_metadata,
             parquet_file_name=parquet_file_name,
