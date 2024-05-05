@@ -1,0 +1,15 @@
+2024-05-05 08:51:26.131807: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2024-05-05 08:51:40.610880: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT
+Keyword arguments {'safety_checker': None} are not expected by StableDiffusionXLPipeline and will be ignored.
+Loading pipeline components...:   0%|          | 0/7 [00:00<?, ?it/s]Loading pipeline components...:  14%|█▍        | 1/7 [00:00<00:05,  1.12it/s]Loading pipeline components...:  29%|██▊       | 2/7 [00:01<00:02,  2.08it/s]Loading pipeline components...:  43%|████▎     | 3/7 [00:04<00:07,  1.93s/it]Loading pipeline components...:  71%|███████▏  | 5/7 [00:44<00:24, 12.11s/it]Loading pipeline components...:  86%|████████▌ | 6/7 [00:46<00:09,  9.23s/it]Loading pipeline components...: 100%|██████████| 7/7 [00:57<00:00,  9.62s/it]Loading pipeline components...: 100%|██████████| 7/7 [00:57<00:00,  8.18s/it]
+Traceback (most recent call last):
+  File "main.py", line 60, in <module>
+    main()
+  File "main.py", line 25, in main
+    pipeline = generate.set_up_stable_diffusion_pipeline_with_lora()
+  File "/users/ririye/work/Mitigating-Bias-in-Stable-Diffusion-Models-Using-LoRA/3_comparison_to_original/comparison_diffusion/generate_after_data.py", line 118, in set_up_stable_diffusion_pipeline_with_lora
+    pipeline.load_lora_weights(
+  File "/users/ririye/.conda/envs/cs8321/lib/python3.8/site-packages/diffusers/loaders/lora.py", line 1230, in load_lora_weights
+    raise ValueError("PEFT backend is required for this method.")
+ValueError: PEFT backend is required for this m:ethod.
