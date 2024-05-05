@@ -1,4 +1,4 @@
-import generate_data_for_finetune as generate
+import generate_after_data as generate
 import push_data_to_hf as hf
 
 from math import ceil
@@ -15,15 +15,15 @@ def main() -> None:
 
     # Load the labels and create diversified prompts
     labels = generate.load_designation_labels()
-    all_prompts = generate.create_diversified_prompts_based_on_race_and_sex(labels)
+    all_prompts = generate.create_benchmark_prompts(labels)
 
     # Calculate the number of batches needed
     total_prompts = len(all_prompts)
     num_batches = ceil(total_prompts / BATCH_SIZE)
 
     # Initialize the pipeline
-    pipeline = generate.set_up_stable_diffusion_pipeline()
-    dataset_repo = "ririye/Generated-LoRA-Input-Images-for-Mitigating-Bias"
+    pipeline = generate.set_up_stable_diffusion_pipeline_with_lora()
+    dataset_repo = "ririye/Mitigated-Bias-Comparison-Images"
 
     # Iterate throgh by batch, generating `BATCH_SIZE` images then converting them
     for batch_num in range(num_batches):

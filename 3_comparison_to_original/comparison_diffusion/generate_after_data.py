@@ -90,7 +90,7 @@ def create_benchmark_prompts(designations: List[str]) -> List[str]:
     ]
 
 
-def set_up_stable_diffusion_pipeline() -> StableDiffusionXLPipeline:
+def set_up_stable_diffusion_pipeline_with_lora() -> StableDiffusionXLPipeline:
     """
     Initializes and returns a Stable Diffusion pipeline using the model specified
     by MODEL_ID and sets it up on the available DEVICE.
@@ -110,9 +110,18 @@ def set_up_stable_diffusion_pipeline() -> StableDiffusionXLPipeline:
     SuperPOD, CUDA is the device, so make sure to get a GPU.
     """
     pipeline = StableDiffusionXLPipeline.from_pretrained(
-        MODEL_ID, torch_dtype=torch.float16, safety_checker=None
+        MODEL_ID, torch_dtype=torch.float16, safety_checker=None,
+    ).to(DEVICE)
+
+    # Load the weights of the LoRA into the StableDiffusionXL Pipeline
+    # Source: https://huggingface.co/docs/diffusers/main/en/api/loaders/lora
+    pipeline.load_lora_weights(
+        pretrained_model_name_or_path_or_dict="ririye/LoRA-Debiased-RealVisXL_V4.0",
+        weight_name="debias_lora.safetensors",
     )
-    return pipeline.to(DEVICE)
+    pipeline.fuse_lora(lora_scale=0.6)
+
+    return pipeline
 
 
 def generate_lora_input_images_and_associated_metadata(

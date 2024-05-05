@@ -143,7 +143,7 @@ def convert_images_to_parquet_and_push(
     repo_id = dataset_repo.split("/")[-1]
     api = HfApi()
     repo_url = api.create_repo(repo_id=repo_id, token=hf_token, exist_ok=True, repo_type="dataset")
-    repo_path = f"../../{repo_id}"
+    repo_path = f"../../../{repo_id}"
     repo = Repository(repo_path, clone_from=repo_url, token=hf_token)
     repo.git_pull()  # Ensure the local repo is up to date
 
