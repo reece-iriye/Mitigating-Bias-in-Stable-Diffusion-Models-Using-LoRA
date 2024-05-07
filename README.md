@@ -40,7 +40,7 @@ def _fuse_lora_apply(self, module, adapter_names=None):
             module.merge(**merge_kwargs)
 ```
 
-In the `peft` repository, in the `src/peft/tuners/lora/lora.py` script,
+In the `peft` repository, in the `src/peft/tuners/lora/lora.py` script, see the `merge()` function in the `Linear` class.
 
 - For each active adapter (`active_adapter`) in `adapter_names`, which would just be a list with 1 element in this case containing the name of the LoRA, the method checks if the adapter's weights (`self.lora_A` and `self.lora_B`) exist.
 
