@@ -8,7 +8,7 @@ In the `diffusers` repository in the file `src/diffusers/loaders/unet.py`, withi
 
 - The `_fuse_lora_apply` method calls `module.merge(**merge_kwargs)` to merge the LoRA layers into the module, and this happend across all the modules in the U-Net.
 
-```{python}
+```python
 def fuse_lora(self, lora_scale=1.0, safe_fusing=False, adapter_names=None):
     self.lora_scale = lora_scale
     self._safe_fusing = safe_fusing
@@ -52,7 +52,7 @@ In the `peft` repository, in the `src/peft/tuners/lora/lora.py` script,
 
 - In the context of cross-attention heads, the Linear class would be used to apply LoRA to the query and value projection matrices. The merge method would be called to merge the LoRA weights with the base weights of these projection matrices, effectively modifying the behavior of the cross-attention heads to obtain some of the "debiasing" behavior we attempt to inject into it.
 
-```{python}
+```python
 class Linear(nn.Module, LoraLayer):
     ...
     def merge(self, safe_merge: bool = False, adapter_names: Optional[list[str]] = None) -> None:
