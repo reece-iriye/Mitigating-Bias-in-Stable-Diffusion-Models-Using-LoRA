@@ -71,3 +71,5 @@ class Linear(nn.Module, LoraLayer):
                         # ...
                 self.merged_adapters.append(active_adapter)
 ```
+
+The LoRA is thus added onto the QKV projections. 
